@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Mastery Tracker | متتبع إتقان Unity</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#1e1e1e',
+                        vim: '#282c34',
+                        accent: '#BB86FC',
+                        secondary: '#03DAC6',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Tajawal', sans-serif;
+            background-color: #0d1117; /* GitHub Dark Dimmed / Obsidian vibe */
+            color: #c9d1d9;
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        
+        .month-header {
+            background: linear-gradient(90deg, #1e1e1e 0%, #2d3748 100%);
+            border-left: 4px solid #BB86FC;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+<div class="max-w-7xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <header class="text-center py-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Unity Mastery Tracking <br><span class="text-accent text-3xl font-normal mt-2 block">متتبع مسار إتقان Unity</span></h1>
+        <p class="text-gray-400 mt-4 max-w-2xl mx-auto">14 Months from Zero to AAA Workflows | 14 شهراً من الصفر إلى احترافية AAA</p>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left Column: Controls & Insights -->
+        <div class="lg:col-span-1 space-y-6">
+            
+            <!-- Progress Section -->
+            <div class="card p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 text-white flex justify-between">
+                    <span>Overall Progress</span>
+                    <span class="text-sm font-normal text-gray-400">التقدم العام</span>
+                </h2>
+                <div class="w-full bg-gray-700 rounded-full h-4 mb-2">
+                    <div id="progress-bar" class="bg-accent h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="text-right text-sm text-gray-400">
+                    <span id="progress-text">0 / 280 Days (0%)</span>
+                </div>
+                
+                <div class="mt-6">
+                    <label class="block text-sm font-medium mb-2">Start Date / تاريخ البدء</label>
+                    <input type="date" id="start-date" class="w-full bg-[#0d1117] border border-gray-600 rounded p-2 text-white focus:outline-none focus:border-accent">
+                    <p class="text-xs text-gray-400 mt-2">Setting this will highlight your "Current Day".</p>
+                </div>
+            </div>
+
+            <!-- Missing Knowledge Log -->
+            <div class="card p-6 rounded-xl shadow-lg flex flex-col h-[300px]">
+                <h2 class="text-xl font-semibold mb-2 text-white flex justify-between">
+                    <span>Missing Knowledge</span>
+                    <span class="text-sm font-normal text-gray-400">الفجوات المعرفية</span>
+                </h2>
+                <p class="text-xs text-secondary mb-4">Log concepts you didn't fully grasp.</p>
+                <textarea id="knowledge-log" class="w-full flex-grow bg-[#0d1117] border border-gray-600 rounded p-3 text-sm text-white focus:outline-none focus:border-accent resize-none" placeholder="E.g., Still confused about Netcode RPCs..."></textarea>
+            </div>
+
+            <!-- OpenRouter Insight -->
+            <div class="card p-6 rounded-xl shadow-lg flex flex-col">
+                <h2 class="text-xl font-semibold mb-2 text-white flex justify-between">
+                    <span>Community Insights</span>
+                    <span class="text-sm font-normal text-gray-400">رؤى المجتمع</span>
+                </h2>
+                <div class="space-y-4 mt-4 flex-grow">
+                    <input type="password" id="openrouter-api" class="w-full bg-[#0d1117] border border-gray-600 rounded p-2 text-white text-sm focus:outline-none focus:border-accent" placeholder="OpenRouter API Key">
+                    <button id="fetch-insight-btn" class="w-full bg-accent hover:bg-purple-500 text-white font-semibold py-2 px-4 rounded transition-colors">
+                        Fetch Community Insight | جلب الرؤى
+                    </button>
+                    <div id="insight-result" class="bg-[#0d1117] border border-gray-700 p-4 rounded text-sm min-h-[100px] text-gray-300 hidden">
+                        <!-- Insight loads here -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: The Curriculum -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="card p-6 text-sm text-gray-400 rounded-xl mb-4 border-l-4 border-l-secondary">
+                <p class="mb-2"><strong class="text-white">Recommended Sources:</strong> Code Monkey (Netcode), Catlike Coding (Math/Shaders), Dapper Dino (Multiplayer), Brackeys (Zero Knowledge basics).</p>
+                <p>Allocate <strong>2-hour study blocks</strong> per day.</p>
+            </div>
+
+            <div id="curriculum-container" class="space-y-4">
+                <!-- Months and Days injected here via JS -->
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    // --- Data Generation Logic ---
+    const TOTAL_MONTHS = 14;
+    const DAYS_PER_MONTH = 20; // Working days per month
+    
+    // Define curriculum phases
+    const PHASES = [
+        {
+            months: [1, 2, 3],
+            titleEn: "Fundamentals & Unity 3D Basics",
+            titleAr: "الأساسيات ومبادئ Unity ثلاثي الأبعاد",
+            topics: [
+                "C# Variables & Data Types", "C# Functions & Control Flow", "C# Classes & OOP Basics",
+                "Unity Interface Navigation", "GameObjects & Transforms", "Components & Prefabs",
+                "Basic Movement Scripting", "Input System (Old vs New)", "Colliders & Triggers",
+                "Rigidbodies & Physics", "Managing Audio in Unity", "Basic UI Canvas & Buttons",
+                "Coroutines & Subroutines", "ScriptableObjects Introduction", "Building and Executing"
+            ]
+        },
+        {
+            months: [4, 5, 6],
+            titleEn: "Advanced Physics, AI & UI/UX",
+            titleAr: "فيزياء متقدمة، ذكاء اصطناعي، وواجهة المستخدم",
+            topics: [
+                "Advanced Raycasting", "Character Controllers vs Rigidbody", "NavMesh Baking & Agents",
+                "Finite State Machines (FSM)", "Animator Controllers & Blends", "Inverse Kinematics (IK) Basics",
+                "Advanced UI Elements & Layouts", "UI Animations (DOTween)", "Event System & Interfaces",
+                "Data Persistence (PlayerPrefs/JSON)", "Scene Management & Loading Async", "Object Pooling Pattern"
+            ]
+        },
+        {
+            months: [7, 8, 9],
+            titleEn: "Online Multiplayer & Backend",
+            titleAr: "اللعب الجماعي عبر الإنترنت والواجهة الخلفية",
+            topics: [
+                "Networking Concepts (Host, Client, Server)", "Unity Netcode for GameObjects (NGO)", "Mirror Networking Basics",
+                "RPCs (Remote Procedure Calls)", "Network Variables & Syncing State", "Client-side Prediction & Interpolation",
+                "Lobby Systems & Matchmaking", "Relay Servers vs Dedicated", "Database Connections (Firebase/Supabase)",
+                "User Authentication", "Leaderboards & Cloud Saving", "Server Authority & Anti-Cheat Basics"
+            ]
+        },
+        {
+            months: [10, 11, 12],
+            titleEn: "Graphics, Shaders & Optimization",
+            titleAr: "الرسوميات، التظليل، والتحسين",
+            topics: [
+                "URP vs HDRP Setup", "Post-Processing Stack", "Lighting: Baked vs Realtime",
+                "Light Probes & Reflection Probes", "Shader Graph Fundamentals", "Visual Effect Graph (VFX)",
+                "Custom HLSL Basics", "Profiler Deep Dive", "Memory Management & Garbage Collection",
+                "Occlusion Culling & LODs", "Batching (Static/Dynamic & SRP Batcher)", "Optimizing Draw Calls"
+            ]
+        },
+        {
+            months: [13, 14],
+            titleEn: "Studio Ops & Portfolio (Saudi Industry)",
+            titleAr: "إدارة الأستوديو ومعرض الأعمال",
+            topics: [
+                "Version Control (Git/Plastic SCM) in Teams", "CI/CD Pipelines for Unity", "Agile & Jira for Game Dev",
+                "Code Architecture (SOLID, MVP)", "Creating a Professional Showreel", "Preparing for Saudi Game Studio Interviews",
+                "Steamworks & Publishing", "Localization Strategies", "Marketing & Community Building",
+                "Writing Design Documents (GDD)"
+            ]
+        }
+    ];
+
+    let curriculum = [];
+
+    // Generate JSON curriculum
+    for (let m = 1; m <= TOTAL_MONTHS; m++) {
+        let phase = PHASES.find(p => p.months.includes(m));
+        let monthObj = {
+            month: m,
+            titleEn: `Month ${m} - ${phase.titleEn}`,
+            titleAr: `الشهر ${m} - ${phase.titleAr}`,
+            days: []
+        };
+        
+        for (let d = 1; d <= DAYS_PER_MONTH; d++) {
+            let overallDay = ((m - 1) * DAYS_PER_MONTH) + d;
+            // Pick a topic relatively sequentially or randomly from phase topics
+            let topicIndex = (overallDay - 1) % phase.topics.length;
+            let currentTopic = phase.topics[topicIndex];
+            
+            // Recommend source based on phase
+            let source = "Brackeys / Official Docs";
+            if(m <= 3) source = "Brackeys / Code Monkey";
+            if(m >= 4 && m <= 6) source = "Code Monkey / Game Dev Guide";
+            if(m >= 7 && m <= 9) source = "Dapper Dino / Code Monkey (Netcode)";
+            if(m >= 10 && m <= 12) source = "Catlike Coding / Freya Holmér";
+            if(m >= 13) source = "GDC Talks / Code Monkey";
+
+            monthObj.days.push({
+                dayNumber: overallDay,
+                topic: currentTopic,
+                youtubePlaceholder: `Search: "${currentTopic} ${source.split('/')[0].trim()}"`,
+                source: source
+            });
+        }
+        curriculum.push(monthObj);
+    }
+
+    // --- UI Render ---
+    const container = document.getElementById('curriculum-container');
+    let completedDays = JSON.parse(localStorage.getItem('unityCompletedDays') || '[]');
+
+    function renderCurriculum() {
+        container.innerHTML = '';
+        curriculum.forEach(m => {
+            let monthEl = document.createElement('div');
+            monthEl.className = 'card rounded-xl overflow-hidden mb-4';
+            
+            // Header
+            let header = document.createElement('div');
+            header.className = 'month-header p-4 cursor-pointer flex justify-between items-center text-white';
+            header.innerHTML = `
+                <div class="font-bold">
+                    <div class="text-lg">${m.titleEn}</div>
+                    <div class="text-sm font-normal text-gray-300 mt-1">${m.titleAr}</div>
+                </div>
+                <div class="text-xl opacity-75">▼</div>
+            `;
+            
+            let daysContainer = document.createElement('div');
+            // Hide by default
+            daysContainer.className = 'hidden flex-col divide-y divide-[#30363d]';
+            
+            header.onclick = () => {
+                daysContainer.classList.toggle('hidden');
+                daysContainer.classList.toggle('flex');
+            };
+
+            m.days.forEach(d => {
+                let isCompleted = completedDays.includes(d.dayNumber);
+                let dayEl = document.createElement('div');
+                let bgClass = isCompleted ? 'bg-[#1e2924] bg-opacity-75' : 'hover:bg-[#1a2029] bg-transparent';
+                
+                dayEl.className = `p-4 flex items-start gap-4 transition-colors duration-200 border-l-[3px] border-transparent ${bgClass}`;
+                dayEl.id = `day-row-${d.dayNumber}`;
+                
+                dayEl.innerHTML = `
+                    <div class="mt-1">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-600 appearance-none checked:bg-secondary cursor-pointer border relative checked:after:content-['✓'] checked:after:absolute checked:after:text-black checked:after:font-black checked:after:left-[3px] checked:after:top-[-2px]" 
+                            ${isCompleted ? 'checked' : ''} 
+                            onchange="toggleDay(${d.dayNumber}, this)">
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start">
+                            <h4 class="text-white font-semibold flex items-center gap-2">
+                                Day ${d.dayNumber}: ${d.topic}
+                            </h4>
+                            <span class="text-xs bg-[#0d1117] text-gray-400 px-2 py-1 rounded border border-gray-700">2 Hrs</span>
+                        </div>
+                        <div class="mt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                            <p class="text-xs text-secondary flex items-center gap-1">📺 <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(d.topic + ' ' + d.source.split('/')[0].trim())}" target="_blank" class="hover:underline">${d.youtubePlaceholder}</a></p>
+                            <p class="text-xs text-gray-500 flex items-center gap-1">📘 ${d.source}</p>
+                        </div>
+                    </div>
+                `;
+                daysContainer.appendChild(dayEl);
+            });
+
+            monthEl.appendChild(header);
+            monthEl.appendChild(daysContainer);
+            container.appendChild(monthEl);
+        });
+        
+        updateProgress();
+        highlightCurrentDay();
+    }
+
+    // --- State Management ---
+    window.toggleDay = function(dayNumber, checkbox) {
+        if (checkbox.checked) {
+            if (!completedDays.includes(dayNumber)) completedDays.push(dayNumber);
+        } else {
+            completedDays = completedDays.filter(d => d !== dayNumber);
+        }
+        localStorage.setItem('unityCompletedDays', JSON.stringify(completedDays));
+        
+        const row = document.getElementById(`day-row-${dayNumber}`);
+        if(checkbox.checked) {
+            row.classList.remove('hover:bg-[#1a2029]', 'bg-transparent');
+            row.classList.add('bg-[#1e2924]', 'bg-opacity-75');
+        } else {
+            row.classList.add('hover:bg-[#1a2029]', 'bg-transparent');
+            row.classList.remove('bg-[#1e2924]', 'bg-opacity-75');
+        }
+        
+        updateProgress();
+    };
+
+    function updateProgress() {
+        const total = TOTAL_MONTHS * DAYS_PER_MONTH;
+        const current = completedDays.length;
+        const percentage = total === 0 ? 0 : Math.round((current / total) * 100);
+        
+        document.getElementById('progress-bar').style.width = `${percentage}%`;
+        document.getElementById('progress-text').innerText = `${current} / ${total} Days (${percentage}%)`;
+    }
+
+    // Start Date & Current Day Logic
+    const startDateInput = document.getElementById('start-date');
+    const storedStartDate = localStorage.getItem('unityStartDate');
+    if (storedStartDate) {
+        startDateInput.value = storedStartDate;
+    }
+
+    startDateInput.addEventListener('change', (e) => {
+        localStorage.setItem('unityStartDate', e.target.value);
+        highlightCurrentDay();
+    });
+
+    function highlightCurrentDay() {
+        // Clear previous highlights
+        document.querySelectorAll('.border-accent.border-l-\\[3px\\]').forEach(el => {
+            el.classList.remove('border-accent');
+            el.classList.add('border-transparent');
+        });
+
+        const sDate = localStorage.getItem('unityStartDate');
+        if (!sDate) return;
+
+        const start = new Date(sDate);
+        start.setHours(0,0,0,0);
+        const now = new Date();
+        now.setHours(0,0,0,0);
+        
+        const diffTime = now - start;
+        if (diffTime < 0) return; // Future start date
+        
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+        
+        // Approximate mapping of calendar days to study days (skip weekends ~5/7 factor)
+        // More accurately: count only weekdays
+        let studyDaysPassed = 0;
+        let iterDate = new Date(start);
+        
+        // Count working days up to today
+        while (iterDate <= now) {
+            const dayOfWeek = iterDate.getDay();
+            if (dayOfWeek !== 5 && dayOfWeek !== 6) { // assuming Fri/Sat weekend in Saudi Arabia
+                studyDaysPassed++;
+            }
+            iterDate.setDate(iterDate.getDate() + 1);
+        }
+
+        let currentStudyDay = studyDaysPassed;
+
+        if (currentStudyDay > 0 && currentStudyDay <= (TOTAL_MONTHS * DAYS_PER_MONTH)) {
+            const row = document.getElementById(`day-row-${currentStudyDay}`);
+            if (row) {
+                row.classList.remove('border-transparent');
+                row.classList.add('border-accent');
+                
+                // Open parent month section automatically
+                const monthContainer = row.parentElement;
+                if(monthContainer.classList.contains('hidden')) {
+                    monthContainer.classList.remove('hidden');
+                    monthContainer.classList.add('flex');
+                }
+            }
+        }
+    }
+
+    // Missing Knowledge Logic
+    const knowledgeLog = document.getElementById('knowledge-log');
+    knowledgeLog.value = localStorage.getItem('unityKnowledgeLog') || '';
+    knowledgeLog.addEventListener('input', (e) => {
+        localStorage.setItem('unityKnowledgeLog', e.target.value);
+    });
+
+    // OpenRouter AI Logic
+    const btnInsight = document.getElementById('fetch-insight-btn');
+    btnInsight.addEventListener('click', async () => {
+        const apiKey = document.getElementById('openrouter-api').value.trim();
+        const resultDiv = document.getElementById('insight-result');
+        
+        if (!apiKey) {
+            alert('Please enter your OpenRouter API key. \nالرجاء إدخال مفتاح OpenRouter الخاص بك.');
+            return;
+        }
+        
+        btnInsight.innerText = 'Fetching Insight... | جاري استخراج الرؤى...';
+        btnInsight.disabled = true;
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = '<span class="text-gray-400">Connecting to OpenRouter (fetching daily Multi-player 3D dev insight)...</span>';
+
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": window.location.href, // Recommended by OpenRouter
+                    "X-Title": "Unity Mastery Tracker"    // Recommended by OpenRouter
+                },
+                body: JSON.stringify({
+                    "model": "google/gemini-2.5-flash", // Good default fast model, changeable
+                    "messages": [
+                        {
+                            "role": "system", 
+                            "content": "You are a professional technical mentor guiding a developer towards AAA-tier Unity 3D Multilayer game development (targeting the Saudi game industry)."
+                        },
+                        {
+                            "role": "user", 
+                            "content": "Provide a quick, concise 1-2 paragraph insight on a trending topic regarding 'Multiplayer 3D game development' in Unity (e.g. Netcode for GameObjects or Matchmaking). Output the response in English first, then provide translation into Arabic. Format nicely without markdown asterisks."
+                        }
+                    ],
+                    "max_tokens": 500
+                })
+            });
+
+            if(!response.ok) throw new Error("API request failed. Key might be invalid.");
+            
+            const data = await response.json();
+            const content = data.choices[0].message.content;
+            
+            resultDiv.innerHTML = `<div class="whitespace-pre-wrap leading-relaxed text-sm">${content}</div>`;
+        } catch (err) {
+            resultDiv.innerHTML = `<span class="text-red-400 font-semibold">Error: ${err.message}. Please check your connection and API key.</span>`;
+        } finally {
+            btnInsight.innerText = 'Fetch Community Insight | جلب الرؤى';
+            btnInsight.disabled = false;
+        }
+    });
+
+    // Initialize all
+    renderCurriculum();
+
+</script>
+</body>
+</html>
