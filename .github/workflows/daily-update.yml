@@ -1,0 +1,40 @@
+name: "Daily Insight & News Update"
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # Runs daily at 06:00 UTC
+  workflow_dispatch: # Allow running manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          
+      - name: Fetch Latest Data
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python .github/scripts/update_data.py
+        
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          
+          # Check if there are changes before committing
+          if git diff --staged --quiet; then
+            echo "No changes to commit from Python script."
+          else
+            git commit -m "chore: auto-update daily insights and news [skip ci]"
+            git push
+          fi
