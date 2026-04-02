@@ -1,41 +1,4 @@
 {
-  "insight": "🔑 **OpenRouter insight not loaded.**\nTo see daily AI insights here, please add an `OPENROUTER_API_KEY` to your GitHub Repository Secrets.\n\nالرؤية اليومية معطلة لعدم توفر مفتاح OpenRouter.",
-  "news": [
-    {
-      "title": "Do someone still needs a Plant Generators, or are we all just prompting “make me a plant” now?",
-      "url": "https://www.reddit.com/r/Unity3D/comments/1s9dehw/do_someone_still_needs_a_plant_generators_or_are/",
-      "source": "Reddit /r/Unity3D",
-      "date": "2026-04-01"
-    },
-    {
-      "title": "Announce Trailer - Tokyo Wave Rush",
-      "url": "https://www.reddit.com/r/Unity3D/comments/1s8psgd/announce_trailer_tokyo_wave_rush/",
-      "source": "Reddit /r/Unity3D",
-      "date": "2026-03-31"
-    },
-    {
-      "title": "Quicktile update,",
-      "url": "https://www.reddit.com/r/Unity3D/comments/1s8sy2a/quicktile_update/",
-      "source": "Reddit /r/Unity3D",
-      "date": "2026-03-31"
-    },
-    {
-      "title": "The hidden costs of traditional 3D tools and the smarter way to build interactive experiences",
-      "url": "https://unity.com/blog/hidden-costs-traditional-3d-tools",
-      "source": "Unity Blog",
-      "date": "Thu, 26 Mar 2026"
-    },
-    {
-      "title": "Rendering at 500 km/h in Gear.Club Unlimited 3",
-      "url": "https://unity.com/blog/eden-games-gear-club-unlimited-3",
-      "source": "Unity Blog",
-      "date": "Wed, 25 Mar 2026"
-    },
-    {
-      "title": "10 questions to ask before starting your first 3D project",
-      "url": "https://unity.com/blog/10-questions-first-no-code-3d-project",
-      "source": "Unity Blog",
-      "date": "Wed, 18 Mar 2026"
-    }
-  ]
+  "insight": "## English\n\nOne of the most impactful trending topics in Unity 3D multiplayer development is the increasing adoption and maturity of **Netcode for GameObjects (NGO)** for building robust and scalable online experiences. Previously, developers often relied on third-party solutions or built custom networking layers, leading to varying levels of complexity and technical debt. NGO, as Unity's official networking solution, offers a high-level, component-based approach that integrates seamlessly with the Unity editor and workflow.\n\nKey advantages include simplified state synchronization, built-in object spawning, RPCs (Remote Procedure Calls) for client-server communication, and a growing community of support. Its focus on abstracting away much of the underlying network complexity allows developers to concentrate more on core gameplay mechanics and less on intricate network plumbing. For aspiring AAA Unity developers, understanding and mastering NGO is becoming increasingly crucial for creating high-quality, performant multiplayer games.\n\n---\n\n## Arabic\n\nأحد أكثر المواضيع الرائجة والمؤثرة في تطوير الألعاب ثلاثية الأبعاد متعددة اللاعبين في Unity هو الاعتماد المتزايد على **Netcode for GameObjects (NGO)** ونضجه لبناء تجارب قوية وقابلة للتطوير عبر الإنترنت. في السابق، غالبًا ما كان المطورون يعتمدون على حلول طرف ثالث أو يبنون طبقات شبكات مخصصة، مما يؤدي إلى مستويات متفاوتة من التعقيد والديون التقنية. تقدم NGO، باعتبارها حل الشبكات الرسمي من Unity، نهجًا عالي المستوى يعتمد على المكونات ويتكامل بسلاسة مع محرر Unity وسير العمل.\n\nتشمل المزايا الرئيسية تبسيط مزامنة الحالة، وتفرّخ الكائنات المدمج، ودعوات الإجراءات عن بعد (RPCs) للاتصال بين العميل والخادم، ومجتمع متنامٍ للدعم. يسمح تركيزها على تجريد الكثير من تعقيدات الشبكة الأساسية للمطورين بالتركيز بشكل أكبر على آليات اللعب الأساسية وأقل على تفاصيل الشبكة المعقدة. بالنسبة لمطوري Unity AAA الطموحين، أصبح فهم وإتقان NGO أمرًا حاسمًا بشكل متزايد لإنشاء ألعاب متعددة اللاعبين عالية الجودة وذات أداء عالٍ.",
+  "news": []
 }
